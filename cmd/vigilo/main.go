@@ -11,6 +11,12 @@ import (
 	"github.com/inamuu/vigilo/internal/runner"
 )
 
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
+
 func main() {
 	options, err := cli.Parse(os.Args[1:])
 	if err != nil {
@@ -23,6 +29,11 @@ func main() {
 
 		fmt.Fprintf(os.Stderr, "vigilo: %v\n", err)
 		os.Exit(1)
+	}
+
+	if options.ShowVersion {
+		fmt.Printf("vigilo version %s (commit %s, built %s)\n", version, commit, date)
+		return
 	}
 
 	backend, err := notifier.New(options.Notify, options.ConfigPath)

@@ -18,6 +18,7 @@ type Options struct {
 	Patterns     []string
 	Notify       string
 	ConfigPath   string
+	ShowVersion  bool
 	Once         bool
 	ExitOnMatch  bool
 	NoStdout     bool
@@ -66,6 +67,7 @@ func Parse(args []string) (Options, error) {
 	fs.Var(&patterns, "p", "regex pattern to detect (repeatable)")
 	fs.StringVar(&options.Notify, "notify", "", "notification backend: osascript or slack")
 	fs.StringVar(&options.ConfigPath, "config", "", "config file path")
+	fs.BoolVar(&options.ShowVersion, "version", false, "print version and exit")
 	fs.BoolVar(&options.Once, "once", false, "notify only on the first match")
 	fs.BoolVar(&options.ExitOnMatch, "exit-on-match", false, "stop after the first match")
 	fs.BoolVar(&options.NoStdout, "no-stdout", false, "do not mirror stdout to the terminal")
@@ -77,6 +79,10 @@ func Parse(args []string) (Options, error) {
 
 	options.Patterns = []string(patterns)
 	options.Command = fs.Args()
+
+	if options.ShowVersion {
+		return options, nil
+	}
 
 	if options.Notify == "" {
 		return Options{}, &UsageError{message: "missing required --notify flag"}
@@ -112,6 +118,7 @@ Flags:
   --pattern, -p     Regex pattern to detect (repeatable)
   --notify          Notification backend: osascript or slack
   --config          Explicit config file path
+  --version         Print version and exit
   --once            Notify only once, then keep streaming output
   --exit-on-match   Exit after the first match
   --no-stdout       Do not mirror stdout to the terminal

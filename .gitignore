@@ -1,0 +1,18 @@
+# Local binaries
+/vigilo
+/vigilo.exe
+
+# Go test/build artifacts
+*.test
+.coverprofile
+coverage.out
+
+# Local Go caches
+/.gocache/
+/.gomodcache/
+
+# GoReleaser artifacts
+/dist/
+
+# macOS
+.DS_Store
