@@ -11,21 +11,15 @@ It supports two monitoring modes:
   - Activated when no `--pattern` flag is provided
   - Waits for the command to finish and notifies with the exit code
 
-## Features
+## Install
 
-- Runs any command with arguments
-- Streams stdout/stderr live to your terminal
-- Matches one or more regular expressions
-- Sends notifications with `osascript` or Slack Incoming Webhooks
-- Returns the child process exit code
+### Homebrew
 
-## Requirements
+```bash
+brew install inamuu/tap/vigilo
+```
 
-- Go 1.24+
-- macOS if you want to use the `osascript` notifier
-- A Slack Incoming Webhook if you want to use the `slack` notifier
-
-## Build
+### Build from source
 
 If you already have `go`:
 
@@ -38,6 +32,20 @@ If you use `mise`:
 ```bash
 mise exec go@1.24 -- go build -o vigilo ./cmd/vigilo
 ```
+
+## Features
+
+- Runs any command with arguments
+- Streams stdout/stderr live to your terminal
+- Matches one or more regular expressions
+- Sends notifications with `osascript` or Slack Incoming Webhooks
+- Returns the child process exit code
+
+## Requirements
+
+- Go 1.24+ to build from source
+- macOS if you want to use the `osascript` notifier
+- A Slack Incoming Webhook if you want to use the `slack` notifier
 
 ## Usage
 
@@ -164,6 +172,17 @@ time: 2026-03-06T11:00:00+09:00
 - `vigilo` returns the child process exit code
 - Invalid CLI usage returns a non-zero exit status
 - Notification failures are reported to stderr, but do not crash the monitored command by themselves
+
+## Release
+
+Releases are built by GitHub Actions on tag push.
+
+```bash
+git tag v0.1.1
+git push origin v0.1.1
+```
+
+The release workflow runs tests, publishes GitHub release assets with GoReleaser, and updates the Homebrew tap at `inamuu/homebrew-tap` when `HOMEBREW_TAP_GITHUB_TOKEN` is configured in GitHub Actions secrets.
 
 ## Development
 
